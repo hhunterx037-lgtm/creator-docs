@@ -10,7 +10,7 @@ Create immersive 3D experiences on Roblox with **Roblox Studio**, a free applica
 ## System requirements
 
 <StudioSystemReqs components={props.components} />
-
+h
 ## Installation
 
 1. Click the following **Download Studio** button.
