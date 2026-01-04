@@ -1,4 +1,90 @@
----
+🧠 1️⃣ Leaderstats (Level System)
+game.Players.PlayerAdded:Connect(function(player)
+	local leaderstats = Instance.new("Folder")
+	leaderstats.Name = "leaderstats"
+	leaderstats.Parent = player
+
+	local Level = Instance.new("IntValue")
+	Level.Name = "Level"
+	Level.Value = 1
+	Level.Parent = leaderstats
+end)
+⚔️ 2️⃣ Killing will increase your level
+game.Players.PlayerAdded:Connect(function(player)
+	player.CharacterAdded:Connect(function(character)
+		local humanoid = character:WaitForChild("Humanoid")
+
+		humanoid.Died:Connect(function()
+			local tag = humanoid:FindFirstChild("creator")
+			if tag and tag.Value then
+				local killer = tag.Value
+				if killer:FindFirstChild("leaderstats") then
+					killer.leaderstats.Level.Value += 1
+				end
+			end
+		end)
+	end)
+end)
+🏆 3️⃣ Noob ➜ Pro System
+local PRO_LEVEL = 10
+
+game.Players.PlayerAdded:Connect(function(player)
+	player.CharacterAdded:Connect(function(character)
+		local humanoid = character:WaitForChild("Humanoid")
+		local level = player.leaderstats.Level
+
+		if level.Value >= PRO_LEVEL then
+			humanoid.WalkSpeed = 24
+			humanoid.JumpPower = 70
+		else
+			humanoid.WalkSpeed = 16
+			humanoid.JumpPower = 50
+		end
+	end)
+end)
+🧠 Rank UI Code (Copy–Paste)
+local PRO_LEVEL = 10
+
+game.Players.PlayerAdded:Connect(function(player)
+	player.CharacterAdded:Connect(function(character)
+
+		local head = character:WaitForChild("Head")
+		local level = player:WaitForChild("leaderstats"):WaitForChild("Level")
+
+		-- পুরাতন GUI থাকলে delete
+		if head:FindFirstChild("RankGui") then
+			head.RankGui:Destroy()
+		end
+
+		local billboard = Instance.new("BillboardGui")
+		billboard.Name = "RankGui"
+		billboard.Size = UDim2.new(0, 120, 0, 40)
+		billboard.StudsOffset = Vector3.new(0, 2.5, 0)
+		billboard.AlwaysOnTop = true
+		billboard.Parent = head
+
+		local text = Instance.new("TextLabel")
+		text.Size = UDim2.new(1, 0, 1, 0)
+		text.BackgroundTransparency = 1
+		text.TextScaled = true
+		text.Font = Enum.Font.GothamBold
+		text.Parent = billboard
+
+		local function updateRank()
+			if level.Value >= PRO_LEVEL then
+				text.Text = "❄️ PRO ❄️"
+				text.TextColor3 = Color3.fromRGB(0, 170, 255)
+			else
+				text.Text = "🎅 NOOB 🎅"
+				text.TextColor3 = Color3.fromRGB(255, 200, 0)
+			end
+		end
+
+		updateRank()
+		level.Changed:Connect(updateRank)
+
+	end)
+end)
 title: Roblox Studio setup
 description: Explains how to install Roblox Studio on your system.
 ---
